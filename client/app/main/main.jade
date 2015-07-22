@@ -1,0 +1,78 @@
+div(ng-include='"components/navbar/navbar.html"')
+
+.container
+	.row
+		.col-md-9
+			h2 Paths
+		.col-md-3
+			h4 Unmatched: {{numPaths}}
+	.row
+		table.table.table-striped(st-table="displayedBooks" st-safe-src="books" cg-busy="pathsPromise")
+			thead
+				tr
+					th(st-sort="fullname") Name
+					th(st-sort="cnt") Candidates
+			tbody
+				tr(ng-repeat='book in displayedBooks' ng-click='showMatches(book.id)')
+					td {{book.fullname}}
+					td {{book.cnt}}
+			tfoot
+				tr
+					td(colspan="2")
+						.container(st-pagination="" st-items-by-page="5" st-displayed-pages="5")
+
+.container
+	.row
+		h2 Candidates
+	.row
+		h4 Selected
+	.row
+		table.table
+			thead
+				tr
+					th.path Path
+					th.fname Filename
+					th.size Size
+					th.type Type
+			tbody
+				tr
+					td.path {{selectedBook.path}}
+					td.fname {{selectedBook.filename}}
+					td.size {{selectedBook.size}}
+					td.type {{selectedBook.type}}
+	.row
+		table.table(st-table="displayedCandidates" st-safe-src="candidates")
+			thead
+				tr
+					th.path(st-sort="path") Path
+					th.fname(st-sort="filename") Filename
+					th.size(st-sort="size") Size
+					th.type(st-sort="type") Type
+					th.weight(st-sort="weight") Weight
+			tbody
+				tr(st-select-row="candidate" st-select-mode="multiple" ng-repeat='candidate in displayedCandidates')
+					td.path {{candidate.path}}
+					td.fname {{candidate.filename}}
+					td.size {{candidate.size}}
+					td.type {{candidate.type}}
+					td.weight {{candidate.weight}}
+			tfoot
+				tr
+					td(colspan="5")
+						.container(st-pagination="" st-items-by-page="10" st-displayed-pages="2")
+		.actions
+			button(btn ng-click="ignoreSelectedCandidates()")
+				| Ignore selected
+			button(btn ng-click="matchSelectedCandidates()")
+				| Match selected
+			input(type="checkbox" ng-model="reverseMatches")
+			Update reverse matches too
+
+footer.footer
+	.container
+		p
+			| Angular Fullstack v2.0.13
+			= ' | '
+			a(href='https://twitter.com/tyhenkel') @tyhenkel
+			= ' | '
+			a(href='https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open') Issues

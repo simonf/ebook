@@ -1,0 +1,35 @@
+h2, h4 {
+	padding-top: 0;
+	margin-top: 0;
+}
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+}
+
+th.weight, td.weight {
+  width: auto;
+}
+
+th.path, td.path {
+	width: 40%;
+}
+
+th.fname, td.fname {
+  width: 40%;
+}
+
+th.size, td.size {
+  width: 5%;
+}
+
+th.type, td.type {
+  width: 5%;
+}
+
+.st-selected {
+	background: #55f;
+	color: #fff;
+}

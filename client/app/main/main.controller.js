@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('guiApp')
-  .controller('MainCtrl', function ($scope, $http, $q) {
+  .controller('MainCtrl', ['$scope','$http','$q', 'apiClient', function ($scope, $http, $q, apiClient) {
 		var self = this;
     $scope.books = [];
 		$scope.displayedBooks=[];
@@ -12,7 +12,8 @@ angular.module('guiApp')
 		$scope.reverseMatches = true;
 		
 		$scope.showBooks = function() {
-		  $scope.pathsPromise = $http.get('/api/books').success(function(books) {
+		  $scope.pathsPromise = apiClient.getUnmatchedPathsPromise().success(function(books) {
+		  // $scope.pathsPromise = $http.get('/api/books').success(function(books) {
 		    $scope.books = books;
 				$scope.displayedBooks = [].concat($scope.books);
 				$scope.numPaths = $scope.displayedBooks.length;
@@ -25,7 +26,8 @@ angular.module('guiApp')
 		$scope.showMatches = function(id) {
 			// two independent calls to the API - no need to coordinate them
 			// First, get more detail about the selected book
-			$http.get('/api/books/book/'+id).success(function(book) {
+			apiClient.getBookDetailPromise(id).success(function(book) {
+//			$http.get('/api/books/book/'+id).success(function(book) {
 				$scope.selectedBook = book;
 			});
 			// In parallel, find all pre-calculated matches 
@@ -94,6 +96,6 @@ angular.module('guiApp')
 			}
 		};
 		$scope.showBooks();
-  });
+  }]);
 	
 	

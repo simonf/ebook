@@ -15,23 +15,22 @@ angular.module('guiApp')
 		postMatchCandidatePromise: postMatchCandidatePromise
 	};
 	
-	console.log("Initialised apiClient");
+	// console.log("Initialised apiClient");
 	return client;
 	
 	// wrap $http call in a regular promises so we can return a cached value if available
 	function getUnmatchedPathsPromise() {
-		console.log("gUPP. cachePaths = "+client.config.cachePaths);
-		console.log("gUPP. Cache: "+client.cache.paths);
+		// showCache("gUPP");
 		var defer = $q.defer();
-		if(client.config.cachePaths && client.cache.paths.length>0) {
-			console.log("cached");
+		if(client.config.cachePaths && client.cache.paths.length > 0) {
+			// console.log("cached");
 			defer.resolve(client.cache.paths);
 		} else {
-			console.log("http");
+			// console.log("http");
 			$http.get('/api/books').success(function(pathArray){
 				if(client.config.cachePaths) {
 					client.cache.paths = pathArray;
-					console.log("Cached: "+client.cache.paths);
+					// console.log("Cached: "+client.cache.paths);
 				} else {
 					console.log("Not caching");
 				}
@@ -79,5 +78,8 @@ angular.module('guiApp')
 			}
 		}
 	}
-		
+	
+	// function showCache(msg) {
+	// 	console.log(msg+". Cache: "+client.cache.paths);
+	// }
 }]);

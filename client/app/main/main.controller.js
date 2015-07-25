@@ -12,7 +12,6 @@ angular.module('guiApp')
 		$scope.reverseMatches = true;
 		
 		$scope.showBooks = function() {
-			console.log("Cache: "+apiClient.cache.paths);
 		  $scope.pathsPromise = apiClient.getUnmatchedPathsPromise().then(function(books) {
 		    $scope.books = books;
 				$scope.displayedBooks = [].concat($scope.books);
@@ -20,7 +19,6 @@ angular.module('guiApp')
 				$scope.selectedBook = null;
 				$scope.candidates = [];
 				$scope.displayedCandidates=[];
-				console.log("A: Cache: "+apiClient.cache.paths);
 		  });
 		};		
 		
@@ -74,11 +72,8 @@ angular.module('guiApp')
 				// and re-query. Also re-query if reverseMatches is true, because we will have 
 				// changed the count of candidates for other books
 				//
-				console.log("B: Cache: "+apiClient.cache.paths);
 				if(unmatchedCount <= 0 || $scope.reverseMatches === true) { 
-					console.log("Marking book as fully matched");
 					self.markBookAsFullyMatched($scope.selectedBook.id);
-					console.log("C: Cache: "+apiClient.cache.paths);
 					$scope.showBooks();
 				} else { // some unmatched candidates remain - requery & redisplay
 					$scope.showMatches($scope.selectedBook.id);
@@ -91,7 +86,6 @@ angular.module('guiApp')
 		
 		self.markBookAsFullyMatched = function(id) {
 			$http.post('/api/books/book',{id: id, candidate: 'N'});
-			console.log("Cache: "+apiClient.cache.paths);
 		};
 		
 		self.setCandidateCount = function(bookid,numCandidates) {

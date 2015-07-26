@@ -3,6 +3,7 @@
 angular.module('guiApp')
   .controller('MainCtrl', ['$scope','$http','$q', 'apiClient', function ($scope, $http, $q, apiClient) {
 		var self = this;
+		self.loaded = false;
     $scope.books = [];
 		$scope.displayedBooks=[];
 		$scope.numPaths = 0;
@@ -12,13 +13,16 @@ angular.module('guiApp')
 		$scope.reverseMatches = true;
 		
 		$scope.showBooks = function() {
-		  $scope.pathsPromise = apiClient.getUnmatchedPathsPromise().then(function(books) {
-		    $scope.books = books;
-				$scope.displayedBooks = [].concat($scope.books);
-				$scope.numPaths = $scope.displayedBooks.length;
+		  $scope.pathsPromise = apiClient.getUnmatchedPathsPromise().then(function(data) {
+		    $scope.books = data;
 				$scope.selectedBook = null;
 				$scope.candidates = [];
 				$scope.displayedCandidates=[];
+				if(!self.loaded) {
+					$scope.displayedBooks = [].concat($scope.books);
+					self.loaded = true;
+				}
+				$scope.numPaths = $scope.displayedBooks.length;
 		  });
 		};		
 		

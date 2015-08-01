@@ -76,8 +76,10 @@ angular.module('guiApp')
 				// and re-query. Also re-query if reverseMatches is true, because we will have 
 				// changed the count of candidates for other books
 				//
-				if(unmatchedCount <= 0 || $scope.reverseMatches === true) { 
+				if(unmatchedCount <= 0 ) { 
 					self.markBookAsFullyMatched($scope.selectedBook.id);
+				}
+				if(unmatchedCount <= 0 || $scope.reverseMatches === true) {
 					$scope.showBooks();
 				} else { // some unmatched candidates remain - requery & redisplay
 					$scope.showMatches($scope.selectedBook.id);
